@@ -58,16 +58,23 @@ func (d *DualArrayDeque[T]) balance() {
 	if 3*f < b || 3*b < f {
 		n := f + b
 		nf := n / 2
+
+		// 全要素を一旦コピーして保持する（d.Get が内部状態に依存するため）
+		elements := make([]T, n)
+		for i := 0; i < n; i++ {
+			elements[i] = d.Get(i)
+		}
+
 		af := make([]T, nf)
 		for i := 0; i < nf; i++ {
-			af[nf-i-1] = d.Get(i)
+			af[nf-i-1] = elements[i]
 		}
 		d.front.ReplaceAll(af)
 
 		nb := n - nf
 		ab := make([]T, nb)
 		for i := 0; i < nb; i++ {
-			ab[i] = d.Get(nf + i)
+			ab[i] = elements[nf+i]
 		}
 		d.back.ReplaceAll(ab)
 	}
