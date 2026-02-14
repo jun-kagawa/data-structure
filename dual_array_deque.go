@@ -11,7 +11,7 @@ func (d *DualArrayDeque[T]) Size() int {
 
 func (d *DualArrayDeque[T]) Get(i int) T {
 	if i < d.front.Size() {
-		return d.front.Get(d.Size() - i - 1)
+		return d.front.Get(d.front.Size() - i - 1)
 	} else {
 		return d.back.Get(i - d.front.Size())
 	}
@@ -36,13 +36,14 @@ func (d *DualArrayDeque[T]) Add(i int, x T) {
 
 func (d *DualArrayDeque[T]) Remove(i int) (T, error) {
 	var x T
+	var err error
 	if i < d.front.Size() {
-		x, err := d.front.Remove(d.front.Size() - i - 1)
+		x, err = d.front.Remove(d.front.Size() - i - 1)
 		if err != nil {
 			return x, err
 		}
 	} else {
-		x, err := d.back.Remove(i - d.front.Size())
+		x, err = d.back.Remove(i - d.front.Size())
 		if err != nil {
 			return x, err
 		}
