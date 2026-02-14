@@ -65,3 +65,9 @@ func (s *ArrayStack[T]) resize() {
 	}
 	s.array = array
 }
+
+func (s *ArrayStack[T]) ReplaceAll(elements []T) {
+	s.n = len(elements)
+	s.array = make([]T, max(2*s.n, 1))
+	copy(s.array, elements)
+}

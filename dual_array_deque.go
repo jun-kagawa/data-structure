@@ -53,21 +53,22 @@ func (d *DualArrayDeque[T]) Remove(i int) (T, error) {
 }
 
 func (d *DualArrayDeque[T]) balance() {
-	if 3*d.front.Size() < d.back.Size() || 3*d.back.Size() < d.front.Size() {
-		n := d.front.Size() + d.back.Size()
+	f := d.front.Size()
+	b := d.back.Size()
+	if 3*f < b || 3*b < f {
+		n := f + b
 		nf := n / 2
-		af := make([]T, max(2*nf, 1))
+		af := make([]T, nf)
 		for i := 0; i < nf; i++ {
 			af[nf-i-1] = d.Get(i)
 		}
+		d.front.ReplaceAll(af)
+
 		nb := n - nf
-		ab := make([]T, max(2*nb, 1))
+		ab := make([]T, nb)
 		for i := 0; i < nb; i++ {
 			ab[i] = d.Get(nf + i)
 		}
-		d.front.array = af
-		d.front.n = nf
-		d.back.array = ab
-		d.back.n = nb
+		d.back.ReplaceAll(ab)
 	}
 }
