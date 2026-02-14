@@ -27,9 +27,9 @@ func (d *DualArrayDeque[T]) Set(i int, x T) T {
 
 func (d *DualArrayDeque[T]) Add(i int, x T) {
 	if i < d.front.Size() {
-		d.front.Add(d.front.Size() - i, x)
+		d.front.Add(d.front.Size()-i, x)
 	} else {
-		d.back.Add(i - d.front.Size(), x)
+		d.back.Add(i-d.front.Size(), x)
 	}
 	d.balance()
 }
@@ -52,17 +52,17 @@ func (d *DualArrayDeque[T]) Remove(i int) (T, error) {
 }
 
 func (d *DualArrayDeque[T]) balance() {
-	if 3 * d.front.Size() < d.back.Size() || 3 * d.back.Size() < d.front.Size() {
+	if 3*d.front.Size() < d.back.Size() || 3*d.back.Size() < d.front.Size() {
 		n := d.front.Size() + d.back.Size()
 		nf := n / 2
-		af := make([]T, max(2 * nf, 1))
+		af := make([]T, max(2*nf, 1))
 		for i := 0; i < nf; i++ {
-			af[nf-i-1] = d.Get(i);
+			af[nf-i-1] = d.Get(i)
 		}
 		nb := n - nf
-		ab := make([]T, max(2 * nb, 1))
+		ab := make([]T, max(2*nb, 1))
 		for i := 0; i < nb; i++ {
-			ab[i] = d.Get(nf+i)
+			ab[i] = d.Get(nf + i)
 		}
 		d.front.array = af
 		d.front.n = nf
@@ -70,4 +70,3 @@ func (d *DualArrayDeque[T]) balance() {
 		d.back.n = nb
 	}
 }
-
